@@ -13,7 +13,6 @@ import (
 	//"gorm.io/gorm"
 	"net/http"
 	"os"
-	"runtime"
 	"strings"
 	"time"
 )
@@ -30,13 +29,13 @@ type Task struct {
 
 func main() {
 	//GetDb()
-	var port *string
+	var addr *string
 	var path *string
 	var refreshToken *string
 	var user *string
 	var pwd *string
 	//
-	port = flag.String("port", "8085", "默认8085")
+	addr = flag.String("addr", ":8085", "默认8085")
 	path = flag.String("path", "./", "")
 	user = flag.String("user", "admin", "用户名")
 	pwd = flag.String("pwd", "123456", "密码")
@@ -52,12 +51,7 @@ func main() {
 		*refreshToken = os.Args[2]
 	}
 	var address string
-	if runtime.GOOS == "windows" {
-		address = ":" + *port
-	} else {
-
-		address = "0.0.0.0:" + *port
-	}
+	address = *addr
 
 	//todo 判断
 	refreshResult := aliyun.RefreshToken(*refreshToken)
